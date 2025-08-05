@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Restaurant Reservation App</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f9f9f9;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .container {
+      max-width: 400px;
+      background: #fff;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+    }
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    select, input {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+    }
+    button {
+      width: 100%;
+      padding: 12px;
+      background: #333;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background 0.3s ease;
+    }
+    button:hover {
+      background: #555;
+    }
+    .hidden {
+      display: none;
+    }
+    .summary-box {
+      background: #f0f0f0;
+      padding: 15px;
+      border-radius: 10px;
+      margin-bottom: 15px;
+      white-space: pre-line;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Step 1: Select Restaurant -->
+    <div id="step1">
+      <h2>Select Restaurant</h2>
+      <select id="restaurantSelect" required>
+        <option value="">-- Choose a Restaurant --</option>
+        <option value="Bella Italia">Bella Italia - 4.5★ (120 Reviews)</option>
+        <option value="Sushi World">Sushi World - 4.7★ (200 Reviews)</option>
+        <option value="Burger Hub">Burger Hub - 4.2★ (95 Reviews)</option>
+        <option value="Pizza Palace">Pizza Palace - 4.8★ (150 Reviews)</option>
+        <option value="Ocean's Delight">Ocean's Delight - 4.6★ (180 Reviews)</option>
+        <option value="Spicy Grill">Spicy Grill - 4.3★ (85 Reviews)</option>
+        <option value="Curry House">Curry House - 4.1★ (70 Reviews)</option>
+        <option value="Vegan Vibes">Vegan Vibes - 4.9★ (110 Reviews)</option>
+        <option value="Taco Fiesta">Taco Fiesta - 4.4★ (130 Reviews)</option>
+        <option value="French Bistro">French Bistro - 4.7★ (160 Reviews)</option>
+      </select>
+      <button onclick="nextStep(2)">Next</button>
+    </div>
+
+    <!-- Step 2: Select Date & Time -->
+    <div id="step2" class="hidden">
+      <h2>Select Date & Time</h2>
+      <input type="date" id="reservationDate" required>
+      <input type="time" id="reservationTime" required>
+      <button onclick="nextStep(3)">Next</button>
+    </div>
+
+    <!-- Step 3: Number of Guests -->
+    <div id="step3" class="hidden">
+      <h2>Number of Guests</h2>
+      <select id="guests" required>
+        <option value="">-- Select --</option>
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+        <option value="6">6</option>
+        <option value="7">7</option>
+        <option value="8">8</option>
+        <option value="9">9</option>
+        <option value="10">10</option>
+      </select>
+      <button onclick="nextStep(4)">Next</button>
+    </div>
+
+    <!-- Step 4: Confirmation -->
+    <div id="step4" class="hidden">
+      <h2>Confirm Reservation</h2>
+      <div class="summary-box" id="summary"></div>
+      <button onclick="nextStep(5)">Confirm</button>
+    </div>
+
+    <!-- Step 5: Success Message -->
+    <div id="step5" class="hidden">
+      <h2>Reservation Successful!</h2>
+      <p>Thank you for booking with us. A confirmation email has been sent to you.</p>
+      <button onclick="restart()">Share</button>
+      <button onclick="restart()">Cancel</button>
+    </div>
+  </div>
+
+  <script>
+    function nextStep(step) {
+      const currentStep = step - 1;
+      document.getElementById(`step${currentStep}`).classList.add('hidden');
+      document.getElementById(`step${step}`).classList.remove('hidden');
+
+      if(step === 4) {
+        const restaurant = document.getElementById('restaurantSelect').value;
+        const date = document.getElementById('reservationDate').value;
+        const time = document.getElementById('reservationTime').value;
+        const guests = document.getElementById('guests').value;
+
+        document.getElementById('summary').innerText =
+          `Restaurant: ${restaurant}\nDate: ${date}\nTime: ${time}\nGuests: ${guests}`;
+      }
+    }
+
+    function restart() {
+      document.getElementById('step5').classList.add('hidden');
+      document.getElementById('step1').classList.remove('hidden');
+
+      // Clear all form inputs
+      document.getElementById('restaurantSelect').value = "";
+      document.getElementById('reservationDate').value = "";
+      document.getElementById('reservationTime').value = "";
+      document.getElementById('guests').value = "";
+      document.getElementById('summary').innerText = "";
+    }
+  </script>
+</body>
+</html>
